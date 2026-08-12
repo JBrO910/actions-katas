@@ -8,7 +8,8 @@ if [[ -z "${github_password}" ]]; then
 	echo "ERROR: github_password must be set in the environment"
 	exit 1
 fi
+[[ -z "${GIT_COMMIT:-}" ]] && Tag='local' || Tag="${GIT_COMMIT::8}"
 echo "${github_password}" | docker login ghcr.io --username "${github_username}" --password-stdin
-docker push "ghcr.io/${github_username}/micronaut-app:1.0-${GIT_COMMIT::8}"
+docker push "ghcr.io/${github_username}/micronaut-app:1.0-${Tag}"
 docker push "ghcr.io/${github_username}/micronaut-app:latest" &
 wait
